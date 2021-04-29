@@ -16,10 +16,22 @@ def delete_task():
         task_delete_index = int(input("Insert an index of the task "
                                       "to delete: "))
     except ValueError:
-        print("Please insert an integer.")
+        print("Index is not an integer.")
     else:
-        task_delete = tasks.pop(task_delete_index)
-        print(f"{task_delete} was deleted.")
+        try:
+            task_delete = tasks.pop(task_delete_index)
+        except IndexError:
+            print("Index too big.")
+        else:
+            print(f"{task_delete} was deleted.")
+
+def save_tasks():
+    filename = "to_do_list.txt"
+    i = 0
+    with open(filename, "w") as f:
+        for task in tasks:
+            i += 1
+            f.write(f"{i}. {task}.\n")
 
 while True:
 
@@ -43,7 +55,7 @@ while True:
         elif user_choice == 2:
             delete_task()
         elif user_choice == 3:
-            print("Save")
+            save_tasks()
         elif user_choice == 4:
             break
         else:
