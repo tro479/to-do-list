@@ -1,7 +1,8 @@
 tasks = []
+filename = "to_do_list.txt"
 
 def show_tasks():
-    task_index = 0
+    task_index = 1
     print("\nTO-DO LIST")
     for task in tasks:
         print(f"{task} [{task_index}]")
@@ -19,19 +20,26 @@ def delete_task():
         print("Index is not an integer.")
     else:
         try:
-            task_delete = tasks.pop(task_delete_index)
+            task_delete = tasks.pop(task_delete_index - 1)
         except IndexError:
             print("Index too big.")
         else:
             print(f"{task_delete} was deleted.")
 
+def load_tasks():
+    try:
+        with open(filename) as f:
+            for line in f.readlines():
+                tasks.append(line.rstrip())
+    except FileNotFoundError:
+        pass
+
 def save_tasks():
-    filename = "to_do_list.txt"
-    i = 0
     with open(filename, "w") as f:
         for task in tasks:
-            i += 1
-            f.write(f"{i}. {task}.\n")
+            f.write(f"{task}\n")
+
+load_tasks()
 
 while True:
 
@@ -57,6 +65,7 @@ while True:
         elif user_choice == 3:
             save_tasks()
         elif user_choice == 4:
+            save_tasks()
             break
         else:
             print("Sorry, there is no such option. Try again.")
